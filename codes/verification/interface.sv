@@ -1,6 +1,7 @@
 //Interface
-interface mul_intf;
-  logic [3:0] a;
-  logic [3:0] b;
-  logic [7:0] y;
+interface apb_intf;
+  logic PCLK,PRESET,PWRITE,PSEL,PENABLE;
+  logic  [31:0] PADDR,PWDATA;
+  logic [31:0] PRDATA;
+  logic PREADY,PSLVERR;
 endinterface
