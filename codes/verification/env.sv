@@ -4,6 +4,8 @@ class env extends uvm_env;
   
   scoreboard scd;
   agent agnt;
+
+  config_apb cfg;
   
   function new(string name = "env", uvm_component parent);
     super.new(name,parent);
@@ -13,6 +15,10 @@ class env extends uvm_env;
     super.build_phase(phase); 
     scd = scoreboard::type_id::create("scd",this);
     agnt = agent::type_id::create("agnt",this);
+    cfg = config_apb::type_id::create("cfg",this);
+    
+    uvm_config_db#(config_apb)::set(this,"agnt","cfg",cfg);
+    
   endfunction
   
   function void connect_phase(uvm_phase phase);
