@@ -1,6 +1,6 @@
-//Top Module
-`include "uvm_macros.svh" //Gives access to all the macros  that we frequently use in the verification environment
-import uvm_pkg::*; //Gives access to the base class from which we can build the verification environment 
+//Top Class
+`include "uvm_macros.svh" 
+import uvm_pkg::*; 
 
 `include "packet.sv"
 `include "sequence.sv"
@@ -16,12 +16,23 @@ import uvm_pkg::*; //Gives access to the base class from which we can build the 
 
 module top;
   
-  mul_intf mif();
+  apb_intf apbif();
   
-  mul_4bit dut(.input1(mif.a),.input2(mif.b),.mul_output(mif.y));
+  //Clock Generation
+  initial begin
+    apbif.PCLK=1'b0;
+    forver #10 apbif.PCLK = ~ apbif.PCLK;
+  end
   
   initial begin
-    uvm_config_db#(virtual mul_intf)::set(null,"*","mif",mif);
+    apbif.PRESET = 1'b1;
+    #20 apbif.PRESET = 1'b0;
+  end
+  
+  apb_slave_memory dut(.PCLK(apbif.PCLK),.PRESET(apbif.PRESET),.PWRITE(apbif.PWRITE),.PSEL(apbif.PSEL),.PENABLE(apbif.PEANBLE),.PADDR(apbif.PADDR),.PWDATA(apbif.PWDATA),.PRDATA(apbif.PRDATA),.PREADY(apbif.PREADY),.PSLVERR(apbif.PSLVERR));
+  
+  initial begin
+    uvm_config_db#(virtual apb_intf)::set(null,"*","apbif",apbif);
   end
   
   initial begin
