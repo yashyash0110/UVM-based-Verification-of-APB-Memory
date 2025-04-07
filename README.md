@@ -1,3 +1,2 @@
-# UVM-based-Verification-of-a-4-bit-Multiplier
+# UVM-based-Verification-of-a-APB-Memory
 
-This repo marks as the first step in learning UVM
